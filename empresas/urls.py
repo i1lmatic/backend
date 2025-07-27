@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import EmpresaCreateView, EmpresaDetailView, EmpresaLoginView
+from .views import EmpresaList, EmpresaDetail, EmpresaLogin
 
 urlpatterns = [
-    path('registro/', EmpresaCreateView.as_view(), name='empresa-registro'),
-    path('<int:pk>/', EmpresaDetailView.as_view(), name='empresa-detalle'),
-    path('login/', EmpresaLoginView.as_view(), name='empresa-login'),  # ¡Nueva ruta!
+    path('api/empresas/', EmpresaList.as_view(), name='empresa-list'),
+    path('api/empresas/<int:pk>/', EmpresaDetail.as_view(), name='empresa-detail'),
+    path('api/login/', EmpresaLogin.as_view(), name='login-empresa'),
 ]
