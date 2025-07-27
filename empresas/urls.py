@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import EmpresaList, EmpresaDetail, EmpresaLogin
+from .views import RegistroEmpresaView, LoginEmpresaView, PerfilEmpresaView
 
 urlpatterns = [
-    path('api/empresas/', EmpresaList.as_view(), name='empresa-list'),
-    path('api/empresas/<int:pk>/', EmpresaDetail.as_view(), name='empresa-detail'),
-    path('api/login/', EmpresaLogin.as_view(), name='login-empresa'),
+    path('registro/', RegistroEmpresaView.as_view(), name='registro_empresa'),
+    path('login/', LoginEmpresaView.as_view(), name='login_empresa'),
+    path('perfil/', PerfilEmpresaView.as_view(), name='perfil_empresa'),
 ]

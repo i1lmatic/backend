@@ -1,28 +1,29 @@
 from rest_framework import serializers
 from .models import Empresa
+from django.contrib.auth import authenticate
 
 class EmpresaSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=False)
+    class Meta:
+        model = Empresa
+        fields = ['id', 'email', 'nombre_comercial', 'direccion', 'telefono']
+
+class EmpresaRegistroSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = Empresa
-        exclude = ['user_permissions', 'groups']  # Ocultamos campos internos
+        fields = ['email', 'nombre_comercial', 'password']
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)
-        empresa = Empresa(**validated_data)
-        if password:
-            empresa.set_password(password)
-        else:
-            empresa.set_password(Empresa.objects.make_random_password())
-        empresa.save()
-        return empresa
+        return Empresa.objects.create_user(**validated_data)
 
-    def update(self, instance, validated_data):
-        password = validated_data.pop('password', None)
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        if password:
-            instance.set_password(password)
-        instance.save()
-        return instance
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        user = authenticate(email=data['email'], password=data['password'])
+        if not user:
+            raise serializers.ValidationError('Credenciales inválidas')
+        data['user'] = user
+        return data
