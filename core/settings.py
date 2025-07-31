@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'empresas',
     'turistas',
+    'paquetes',
+    'reservas',
 ]
 
 REST_FRAMEWORK = {
