@@ -10,3 +10,4 @@ class Empresa(models.Model):
 
     def __str__(self):
         return self.nombre_comercial
+REQUIRED_FIELDS = ['user', 'nombre_comercial','password']
